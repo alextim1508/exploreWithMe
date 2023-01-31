@@ -3,11 +3,9 @@ package ru.practicum.explorewithme.mainServer.category.dto;
 import lombok.*;
 
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CategoryDto {
 
     @NonNull

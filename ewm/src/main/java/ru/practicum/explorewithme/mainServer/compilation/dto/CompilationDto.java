@@ -5,11 +5,10 @@ import ru.practicum.explorewithme.mainServer.event.dto.EventShortDto;
 
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CompilationDto {
 
     @NonNull
@@ -21,5 +20,7 @@ public class CompilationDto {
     @NonNull
     private Boolean pinned;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<EventShortDto> events;
 }

@@ -9,39 +9,44 @@ import ru.practicum.explorewithme.mainServer.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "events")
-@Builder
 public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false, length = 2000)
     private String annotation;
 
+    @NonNull
     @Column(nullable = false, length = 120)
     private String title;
 
+    @NonNull
     @Column(nullable = false, length = 7000)
     private String description;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(nullable = false)
     private Category category;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(nullable = false)
     private User initiator;
 
+    @NonNull
     @Column(nullable = false)
     private LocalDateTime eventDate;
 
@@ -64,18 +69,16 @@ public class Event {
 
     private LocalDateTime published;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "event",
             orphanRemoval = true,
             cascade = CascadeType.REMOVE,
             fetch = FetchType.LAZY)
-    private Set<Request> requests = new HashSet<>();
+    private List<Request> requests = new ArrayList<>();
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "events")
-    private Set<Compilation> compilations = new HashSet<>();
-
-    @Transient
-    private long confirmedRequests;
-
-    @Transient
-    private long views;
+    private List<Compilation> compilations = new ArrayList<>();
 }

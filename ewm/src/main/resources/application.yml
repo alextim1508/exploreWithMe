@@ -2,8 +2,21 @@ server:
   port: 8080
 
 spring:
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    properties:
+      hibernate.format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: none
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
+  datasource:
+    url: jdbc:postgresql://localhost:5432/explore_with_me
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+

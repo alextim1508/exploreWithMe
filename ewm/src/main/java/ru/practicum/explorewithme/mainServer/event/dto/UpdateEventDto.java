@@ -6,15 +6,15 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class UpdateEventDto {
 
     @NonNull
-    private Long eventId;
+    @JsonProperty("eventId")
+    private Long id;
 
     @NotBlank
     @Size(min = 20, max = 2000)

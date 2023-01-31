@@ -2,9 +2,7 @@ package ru.practicum.explorewithme.mainServer.user.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserShortDto {

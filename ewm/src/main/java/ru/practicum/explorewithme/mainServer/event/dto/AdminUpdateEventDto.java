@@ -6,11 +6,10 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class AdminUpdateEventDto {
 
     @NotBlank

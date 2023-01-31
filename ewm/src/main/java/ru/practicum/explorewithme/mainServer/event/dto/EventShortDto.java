@@ -6,11 +6,10 @@ import ru.practicum.explorewithme.mainServer.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class EventShortDto {
 
     @NonNull

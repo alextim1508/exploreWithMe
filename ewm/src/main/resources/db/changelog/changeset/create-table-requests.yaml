@@ -27,7 +27,7 @@ databaseChangeLog:
                     foreignKeyName: fk_request_event
                     references: events(id)
               - column:
-                  name: state
+                  name: status
                   type: varchar(24)
                   constraints:
                     nullable: false

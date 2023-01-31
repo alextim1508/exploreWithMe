@@ -4,24 +4,27 @@ import lombok.*;
 import ru.practicum.explorewithme.mainServer.event.model.Event;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "categories")
-@Builder
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false, unique = true, length = 255)
     private String name;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "category")
-    private Set<Event> events;
+    private List<Event> events = new ArrayList<>();
 }

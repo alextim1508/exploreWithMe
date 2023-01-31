@@ -6,11 +6,10 @@ import lombok.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class NewEventDto {
 
     @NotBlank
@@ -34,7 +33,6 @@ public class NewEventDto {
     @Future
     private LocalDateTime eventDate;
 
-    @NotNull
     private LocationDto location;
 
     private Boolean paid = false;

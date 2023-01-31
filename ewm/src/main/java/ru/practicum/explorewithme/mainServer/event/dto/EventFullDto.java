@@ -6,11 +6,10 @@ import ru.practicum.explorewithme.mainServer.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class EventFullDto {
 
     @NonNull
@@ -34,7 +33,6 @@ public class EventFullDto {
     @NonNull
     private LocalDateTime eventDate;
 
-    @NonNull
     private LocationDto location;
 
     @NonNull

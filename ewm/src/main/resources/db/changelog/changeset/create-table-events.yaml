@@ -28,14 +28,14 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: category
+                  name: category_id
                   type: bigint
                   constraints:
                     nullable: false
                     foreignKeyName: fk_events_category
                     references: categories(id)
               - column:
-                  name: initiator
+                  name: initiator_id
                   type: bigint
                   constraints:
                     nullable: false
@@ -49,13 +49,9 @@ databaseChangeLog:
               - column:
                   name: latitude
                   type: decimal
-                  constraints:
-                    nullable: false
               - column:
                   name: longitude
                   type: decimal
-                  constraints:
-                    nullable: false
               - column:
                   name: paid
                   type: bool

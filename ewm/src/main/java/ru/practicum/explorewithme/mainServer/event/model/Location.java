@@ -3,12 +3,14 @@ package ru.practicum.explorewithme.mainServer.event.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Location {
 
     @Column(nullable = false)

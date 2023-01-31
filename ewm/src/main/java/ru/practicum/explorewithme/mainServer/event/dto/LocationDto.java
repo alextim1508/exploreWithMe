@@ -1,13 +1,13 @@
 package ru.practicum.explorewithme.mainServer.event.dto;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
-@Value
+@Data
 @Builder
-@Jacksonized
+@NoArgsConstructor
+@AllArgsConstructor
 public class LocationDto {
-    Double lat;
-    Double lon;
+    private Double lat;
+    private Double lon;
 }
