@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_stats
+      author: Aleksey Timofeev
+      changes:
+        - createTable:
+            tableName: stats
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: app
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uri
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ip
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  constraints:
+                    nullable: false

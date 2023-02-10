@@ -1,0 +1,12 @@
+app:
+  name: ewm-main-service
+
+stat-server:
+  url: ${STAT-SERVER-URL}
+  getPath: /stats
+  postPath: /hit
+
+spring:
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss

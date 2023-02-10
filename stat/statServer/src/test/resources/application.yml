@@ -1,0 +1,20 @@
+server:
+  port: 9090
+
+spring:
+  jpa:
+    properties:
+      hibernate.format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  datasource:
+    url: jdbc:postgresql://localhost:5432/explore_with_me_test
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
