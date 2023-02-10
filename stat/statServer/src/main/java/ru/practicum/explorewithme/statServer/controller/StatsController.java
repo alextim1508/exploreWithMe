@@ -32,4 +32,9 @@ public class StatsController {
 
         return service.get(appName, start, end, unique, uris);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }

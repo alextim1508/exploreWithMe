@@ -9,7 +9,7 @@ services:
     environment:
       - SERVER_PORT=9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
-      - SPRING_DATASOURCE_USER=postgres
+      - SPRING_DATASOURCE_USER=root
       - SPRING_DATASOURCE_PASSWORD=root
 
   stats-db:
@@ -18,5 +18,5 @@ services:
       - "5444:5432"
     environment:
       - POSTGRES_DB=stats
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
