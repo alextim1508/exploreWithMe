@@ -1,7 +1,7 @@
 package ru.practicum.explorewithme.statServer.repository;
 
 import org.springframework.lang.Nullable;
-import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statServer.model.Hit;
 
 import java.time.LocalDateTime;

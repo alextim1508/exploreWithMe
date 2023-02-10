@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import ru.practicum.explorewithme.stat.dto.HitDto;
-import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.dto.HitDto;
+import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statServer.model.Hit;
 import ru.practicum.explorewithme.statServer.repository.HitRepository;
 

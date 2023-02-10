@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
-import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statServer.model.Hit;
 
 import java.sql.ResultSet;

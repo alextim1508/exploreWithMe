@@ -1,7 +1,7 @@
 package ru.practicum.explorewithme.statClient.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statClient.exception.HttpClientException;
 
 

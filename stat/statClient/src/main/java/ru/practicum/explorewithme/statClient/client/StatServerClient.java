@@ -12,8 +12,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.explorewithme.stat.dto.HitDto;
-import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.dto.HitDto;
+import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statClient.exception.HttpClientException;
 
 import javax.servlet.http.HttpServletRequest;

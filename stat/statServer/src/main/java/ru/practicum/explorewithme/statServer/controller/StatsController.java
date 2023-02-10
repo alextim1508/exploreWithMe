@@ -2,8 +2,8 @@ package ru.practicum.explorewithme.statServer.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.stat.dto.HitDto;
-import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.dto.HitDto;
+import ru.practicum.explorewithme.dto.StatDto;
 import ru.practicum.explorewithme.statServer.service.StatsService;
 
 import java.time.LocalDateTime;
