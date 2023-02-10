@@ -24,7 +24,7 @@ public class StatsController {
 
     @GetMapping("/stats")
     public List<StatDto> get(
-            @RequestParam(name = "app") String appName,
+            @RequestParam(name = "app", defaultValue = "ewm-server") String appName,
             @RequestParam(name = "start") LocalDateTime start,
             @RequestParam(name = "end") LocalDateTime end,
             @RequestParam(name = "unique", defaultValue = "false") Boolean unique,
