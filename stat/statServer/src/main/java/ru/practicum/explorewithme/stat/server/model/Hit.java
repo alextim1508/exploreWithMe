@@ -1,4 +1,4 @@
-package ru.practicum.explorewithme.statServer.model;
+package ru.practicum.explorewithme.stat.server.model;
 
 import lombok.*;
 

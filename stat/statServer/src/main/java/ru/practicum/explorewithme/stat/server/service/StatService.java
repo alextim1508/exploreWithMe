@@ -1,8 +1,8 @@
-package ru.practicum.explorewithme.statServer.service;
+package ru.practicum.explorewithme.stat.server.service;
 
 import org.springframework.lang.Nullable;
-import ru.practicum.explorewithme.core.dto.HitDto;
-import ru.practicum.explorewithme.core.dto.StatDto;
+import ru.practicum.explorewithme.stat.dto.HitDto;
+import ru.practicum.explorewithme.stat.dto.StatDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

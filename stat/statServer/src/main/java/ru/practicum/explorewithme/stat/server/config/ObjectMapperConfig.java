@@ -1,4 +1,4 @@
-package ru.practicum.explorewithme.statServer.config;
+package ru.practicum.explorewithme.stat.server.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -30,6 +30,7 @@ public class ObjectMapperConfig {
         );
         module.addDeserializer(LocalDateTime.class, localDateTimeDeserializer);
         module.addSerializer(LocalDateTime.class, localDateTimeSerializer);
+
         return Jackson2ObjectMapperBuilder.json()
                 .modules(module)
                 .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)

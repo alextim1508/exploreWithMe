@@ -1,9 +1,9 @@
-package ru.practicum.explorewithme.statServer.service;
+package ru.practicum.explorewithme.stat.server.service;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.practicum.explorewithme.core.dto.HitDto;
-import ru.practicum.explorewithme.statServer.model.Hit;
+import ru.practicum.explorewithme.stat.dto.HitDto;
+import ru.practicum.explorewithme.stat.server.model.Hit;
 
 @Mapper(componentModel = "spring")
 public interface HitMapper {

@@ -1,11 +1,11 @@
-package ru.practicum.explorewithme.statServer.repository;
+package ru.practicum.explorewithme.stat.server.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.practicum.explorewithme.core.dto.StatDto;
-import ru.practicum.explorewithme.statServer.model.Hit;
+import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.stat.server.model.Hit;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +15,7 @@ public interface StatRepository extends JpaRepository<Hit, Long> {
 
     @Query(value = "" +
             "SELECT " +
-                "new ru.practicum.explorewithme.core.dto.StatDto(h.app, h.uri, COUNT(h)) " +
+                "new ru.practicum.explorewithme.stat.dto.StatDto(h.app, h.uri, COUNT(h)) " +
             "FROM " +
                 "Hit h " +
             "WHERE " +
@@ -30,7 +30,7 @@ public interface StatRepository extends JpaRepository<Hit, Long> {
 
     @Query(value = "" +
             "SELECT " +
-                "new ru.practicum.explorewithme.core.dto.StatDto(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
+                "new ru.practicum.explorewithme.stat.dto.StatDto(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
             "FROM " +
                 "Hit h " +
             "WHERE " +
@@ -45,7 +45,7 @@ public interface StatRepository extends JpaRepository<Hit, Long> {
 
     @Query(value = "" +
             "SELECT " +
-                "new ru.practicum.explorewithme.core.dto.StatDto(h.app, h.uri, COUNT(h)) " +
+                "new ru.practicum.explorewithme.stat.dto.StatDto(h.app, h.uri, COUNT(h)) " +
             "FROM " +
                 "Hit h " +
             "WHERE " +
@@ -62,7 +62,7 @@ public interface StatRepository extends JpaRepository<Hit, Long> {
 
     @Query(value = "" +
             "SELECT " +
-                "new ru.practicum.explorewithme.core.dto.StatDto(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
+                "new ru.practicum.explorewithme.stat.dto.StatDto(h.app, h.uri, COUNT(DISTINCT h.ip)) " +
             "FROM " +
                 "Hit h " +
             "WHERE " +

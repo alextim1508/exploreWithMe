@@ -1,4 +1,4 @@
-package ru.practicum.explorewithme.statClient.client;
+package ru.practicum.explorewithme.stat.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,9 +12,9 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.explorewithme.core.dto.HitDto;
-import ru.practicum.explorewithme.core.dto.StatDto;
-import ru.practicum.explorewithme.statClient.exception.HttpClientException;
+import ru.practicum.explorewithme.stat.dto.HitDto;
+import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.stat.client.exception.HttpClientException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;

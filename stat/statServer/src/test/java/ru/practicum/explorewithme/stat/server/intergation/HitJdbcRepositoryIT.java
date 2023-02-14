@@ -1,12 +1,12 @@
-package ru.practicum.explorewithme.statServer.intergation;
+package ru.practicum.explorewithme.stat.server.intergation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.explorewithme.core.dto.StatDto;
-import ru.practicum.explorewithme.statServer.model.Hit;
-import ru.practicum.explorewithme.statServer.repository.StatRepository;
+import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.stat.server.model.Hit;
+import ru.practicum.explorewithme.stat.server.repository.StatRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,13 +1,13 @@
-package ru.practicum.explorewithme.statServer.service;
+package ru.practicum.explorewithme.stat.server.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import ru.practicum.explorewithme.core.dto.HitDto;
-import ru.practicum.explorewithme.core.dto.StatDto;
-import ru.practicum.explorewithme.statServer.model.Hit;
-import ru.practicum.explorewithme.statServer.repository.StatRepository;
+import ru.practicum.explorewithme.stat.dto.HitDto;
+import ru.practicum.explorewithme.stat.dto.StatDto;
+import ru.practicum.explorewithme.stat.server.model.Hit;
+import ru.practicum.explorewithme.stat.server.repository.StatRepository;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
