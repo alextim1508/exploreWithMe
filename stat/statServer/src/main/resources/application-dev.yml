@@ -1,0 +1,9 @@
+spring:
+  hibernate:
+    ddl-auto: validate
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/explore_with_me
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
