@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_compilations
+      author: Aleksey Timofeev
+      changes:
+        - createTable:
+            tableName: compilations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(1024)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: pinned
+                  type: bool
+                  defaultValue: false

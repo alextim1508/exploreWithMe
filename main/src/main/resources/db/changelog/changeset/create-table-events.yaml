@@ -1,0 +1,78 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_events
+      author: Aleksey Timofeev
+      changes:
+        - createTable:
+            tableName: events
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: annotation
+                  type: varchar(2000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(7000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_events_category
+                    references: categories(id)
+              - column:
+                  name: initiator_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_events_initiator
+                    references: users(id)
+              - column:
+                  name: event_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: latitude
+                  type: double precision
+              - column:
+                  name: longitude
+                  type: double precision
+              - column:
+                  name: paid
+                  type: bool
+                  defaultValue: false
+              - column:
+                  name: participant_limit
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: request_moderation
+                  type: bool
+                  defaultValue: true
+              - column:
+                  name: state
+                  type: varchar(24)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+              - column:
+                  name: published
+                  type: timestamp
+

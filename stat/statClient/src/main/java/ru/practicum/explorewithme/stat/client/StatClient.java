@@ -90,6 +90,10 @@ public class StatClient implements HttpClient {
             parameters = new HashMap<>();
         }
 
+        if (!parameters.containsKey("app")) {
+            parameters.put("app", appName);
+        }
+
         if (!parameters.containsKey("start")) {
             String startTime = LocalDateTime.now().minusDays(DEFAULT_PERIOD_IN_DAYS).format(formatter);
             parameters.put("start", startTime);

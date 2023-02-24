@@ -1,8 +1,11 @@
 server:
-  port: 9090
+  port: 8080
 
 spring:
   jpa:
+    properties:
+      hibernate.format_sql: true
+    show-sql: true
     hibernate:
       ddl-auto: validate
 

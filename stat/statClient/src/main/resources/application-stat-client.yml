@@ -2,7 +2,7 @@ app:
   name: ewm-main-service
 
 stat-server:
-  url: ${STAT_SERVER-URL}
+  url: ${STAT_SERVER_URL}
   getPath: /stats
   postPath: /hit
 
