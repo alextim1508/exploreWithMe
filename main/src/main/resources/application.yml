@@ -1,0 +1,17 @@
+spring:
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  jpa:
+    properties:
+      hibernate.format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+
+app:
+  name: ewm-main-service
+  event_delta_hours: 2

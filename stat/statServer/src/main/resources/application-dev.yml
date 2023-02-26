@@ -1,6 +1,10 @@
+server:
+  port: 9090
+
 spring:
-  hibernate:
-    ddl-auto: validate
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
   datasource:
     url: jdbc:postgresql://localhost:5432/explore_with_me

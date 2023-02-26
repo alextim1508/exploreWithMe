@@ -1,6 +1,8 @@
 package ru.practicum.explorewithme.stat.server.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewithme.stat.dto.HitDto;
 import ru.practicum.explorewithme.stat.dto.StatDto;
@@ -11,13 +13,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class StatController {
 
     private final StatService service;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/hit")
     public HitDto hit(
             @RequestBody HitDto hitDto) {
+
+        log.debug("Creating hit {}", hitDto);
 
         return service.create(hitDto);
     }
