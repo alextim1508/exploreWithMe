@@ -36,15 +36,15 @@ public class RequestServiceImpl implements RequestService {
         log.debug("Request to add participation request for event with id {} is received from user with id {}",
                 eventId, userId);
 
-        checkRequestIsNotRepeated(userId, eventId);
+        throwConflictIfRequestIsRepeated(userId, eventId);
 
         Request request = requestMapper.toEntity(userId, eventId);
 
-        checkRequesterIsNotInitiator(request);
+        throwConflictIfRequesterIsInitiator(request);
 
-        checkEventStatusIsPublished(request);
+        throwConflictIfEventStatusIsNotPublished(request);
 
-        checkSlot(request);
+        throwConflictIfThereIsNotSlot(request);
 
         if (request.getEvent().getRequestModeration() && request.getEvent().getParticipantLimit() != 0) {
             request.setStatus(PENDING);
@@ -77,9 +77,9 @@ public class RequestServiceImpl implements RequestService {
 
         Request request = getRequest(requestId);
 
-        checkUserIsNotRequester(userId, request);
+        throwValidationIfUserIsNotRequester(userId, request);
 
-        checkEventStatusIsNotCanceled(request);
+        throwConflictIfEventStatusIsCanceled(request);
 
         request.setStatus(CANCELED);
 
@@ -88,7 +88,7 @@ public class RequestServiceImpl implements RequestService {
         return requestMapper.toDto(request);
     }
 
-    void checkSlot(Request request) {
+    private void throwConflictIfThereIsNotSlot(Request request) {
         if (eventService.isMoreRequestLimit(request.getEvent())) {
             throw new ConflictException(
                     messageSource.getMessage(
@@ -97,7 +97,7 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
-    void checkEventStatusIsPublished(Request request) {
+    private void throwConflictIfEventStatusIsNotPublished(Request request) {
         if (request.getEvent().getState() != EventState.PUBLISHED) {
             throw new ConflictException(
                     messageSource.getMessage(
@@ -106,7 +106,7 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
-    void checkRequesterIsNotInitiator(Request request) {
+    private void throwConflictIfRequesterIsInitiator(Request request) {
         if (request.getRequester().getId().equals(request.getEvent().getInitiator().getId())) {
             throw new ConflictException(
                     messageSource.getMessage(
@@ -116,7 +116,7 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
-    void checkRequestIsNotRepeated(Long userId, Long eventId) {
+    private void throwConflictIfRequestIsRepeated(Long userId, Long eventId) {
         requestRepo.findByRequesterIdAndEventId(userId, eventId)
                 .ifPresent(r -> {
                     throw new ConflictException(
@@ -126,7 +126,7 @@ public class RequestServiceImpl implements RequestService {
                 });
     }
 
-    void checkEventStatusIsNotCanceled(Request request) {
+    private void throwConflictIfEventStatusIsCanceled(Request request) {
         if (request.getStatus().equals(CANCELED)) {
             throw new ConflictException(
                     messageSource.getMessage(
@@ -135,7 +135,7 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
-    void checkUserIsNotRequester(Long userId, Request request) {
+    private void throwValidationIfUserIsNotRequester(Long userId, Request request) {
         if (!request.getRequester().getId().equals(userId)) {
             throw new ValidationException(
                     messageSource.getMessage(
@@ -144,7 +144,7 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
-    Request getRequest(Long id) {
+    private Request getRequest(Long id) {
         return requestRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("event.not_found", new Object[]{id}, null),

@@ -80,16 +80,18 @@ public class UserServiceImpl implements UserService {
         if (!user.getEvents().isEmpty()) {
             throw new ConflictException(
                     messageSource.getMessage("user.delete.used_in_events", new Object[]{id}, null),
-                    format("userId=%d, eventIds=%s", id, user.getEvents().stream().map(event ->
-                            String.valueOf(event.getId())).collect(Collectors.joining(", "))));
+                    format("userId=%d, eventIds=%s", id, user.getEvents().stream()
+                            .map(event -> String.valueOf(event.getId()))
+                            .collect(Collectors.joining(", "))));
 
         }
 
         if (!user.getRequests().isEmpty()) {
             throw new ConflictException(
                     messageSource.getMessage("user.delete.used_in_requests", new Object[]{id}, null),
-                    format("userId=%d, requestIds=%s", id, user.getRequests().stream().map(event ->
-                            String.valueOf(event.getId())).collect(Collectors.joining(", "))));
+                    format("userId=%d, requestIds=%s", id, user.getRequests().stream()
+                            .map(event -> String.valueOf(event.getId()))
+                            .collect(Collectors.joining(", "))));
         }
 
         repo.deleteById(id);
@@ -97,7 +99,7 @@ public class UserServiceImpl implements UserService {
         log.info("User with ID {} is deleted from repository", id);
     }
 
-    User getUser(Long id) {
+    private User getUser(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("user.not_found", new Object[]{id}, null),

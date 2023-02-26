@@ -106,8 +106,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (!category.getEvents().isEmpty()) {
             throw new ConflictException(
                     messageSource.getMessage("category.delete.used_in_events", new Object[]{id}, null),
-                    format("categoryId=%d, eventIds=%s", id, category.getEvents().stream().map(event ->
-                            String.valueOf(event.getId())).collect(Collectors.joining(", "))));
+                    format("categoryId=%d, eventIds=%s", id, category.getEvents().stream()
+                            .map(event -> String.valueOf(event.getId()))
+                            .collect(Collectors.joining(", "))));
         }
 
         repo.deleteById(id);
@@ -115,7 +116,7 @@ public class CategoryServiceImpl implements CategoryService {
         log.debug("Category with ID {} is deleted from repository", id);
     }
 
-    Category getCategory(Long id) {
+    private Category getCategory(Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("category.not_found", new Object[]{id}, null),

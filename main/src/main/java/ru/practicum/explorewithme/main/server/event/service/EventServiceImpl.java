@@ -61,7 +61,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto create(Long userId, NewEventDto eventDto) {
         log.debug("Request to add event {} is received", eventDto);
 
-        checkEventDateLeastComeHoursFromNowInFuture(eventDto.getEventDate());
+        throwConflictIfDateEventIsLaterThanFewHoursBeforePresentTime(eventDto.getEventDate());
 
         Event event = eventMapper.toEntity(eventDto, userId);
 
@@ -180,11 +180,11 @@ public class EventServiceImpl implements EventService {
     public ParticipationRequestDto confirm(Long userId, Long eventId, Long reqId) {
         Event event = getEvent(eventId);
 
-        checkEventIsModerated(event);
+        throwConflictIfEventIsNotModerated(event);
 
-        checkUserIsInitiator(userId, event);
+        throwConflictIfUserIsNotInitiator(userId, event);
 
-        checkSlot(event);
+        throwConflictIfThereIsNotSlot(event);
 
         Request request = getRequest(event, reqId);
 
@@ -200,13 +200,13 @@ public class EventServiceImpl implements EventService {
     public ParticipationRequestDto reject(Long userId, Long eventId, Long reqId) {
         Event event = getEvent(eventId);
 
-        checkEventIsModerated(event);
+        throwConflictIfEventIsNotModerated(event);
 
-        checkUserIsInitiator(userId, event);
+        throwConflictIfUserIsNotInitiator(userId, event);
 
         Request request = getRequest(event, reqId);
 
-        checkRequestStatusIsNotConfirmed(request);
+        throwConflictIfRequestStatusIsConfirmed(request);
 
         request.setStatus(REJECTED);
 
@@ -215,8 +215,9 @@ public class EventServiceImpl implements EventService {
         return requestMapper.toDto(request);
     }
 
-    Request getRequest(Event event, Long reqId) {
-        Request request = event.getRequests().stream().filter(r -> Objects.equals(r.getId(), reqId)).findFirst()
+    private Request getRequest(Event event, Long reqId) {
+        Request request = event.getRequests().stream()
+                .filter(r -> Objects.equals(r.getId(), reqId)).findFirst()
                 .orElseThrow(() ->
                         new ValidationException(
                                 messageSource.getMessage("event.request.not_found_by_initiator",
@@ -232,11 +233,11 @@ public class EventServiceImpl implements EventService {
 
         Event event = getEvent(eventId);
 
-        checkUserIsInitiator(userId, event);
+        throwConflictIfUserIsNotInitiator(userId, event);
 
-        checkEventStatusIsNotPublished(event);
+        throwConflictIfEventStatusIsPublished(event);
 
-        checkEventDateLeastComeHoursFromNowInFuture(eventDto.getEventDate());
+        throwConflictIfDateEventIsLaterThanFewHoursBeforePresentTime(eventDto.getEventDate());
 
         eventMapper.update(eventDto, event);
 
@@ -252,11 +253,11 @@ public class EventServiceImpl implements EventService {
 
         Event event = getEvent(eventId);
 
-        checkEventStatusIsNotPendingWhenTryingToPublish(eventDto, event);
+        throwConflictIfEventStatusIPendingWhenTryingToPublish(eventDto, event);
 
-        checkEventStatusIsNotPublishedWhenTryingToReject(eventDto, event);
+        throwConflictIfEventStatusIsPublishedWhenTryingToReject(eventDto, event);
 
-        checkEventDateLeastComeHoursFromNowInFuture(eventDto.getEventDate());
+        throwConflictIfDateEventIsLaterThanFewHoursBeforePresentTime(eventDto.getEventDate());
 
         eventMapper.update(eventDto, event);
 
@@ -293,14 +294,14 @@ public class EventServiceImpl implements EventService {
         return confirmedRequestsCount >= event.getParticipantLimit();
     }
 
-    private void checkRequestStatusIsNotConfirmed(Request request) {
+    private void throwConflictIfRequestStatusIsConfirmed(Request request) {
         if (request.getStatus() == CONFIRMED)
             throw new ConflictException(
                     messageSource.getMessage("event.request.status.confirmed", null, null),
                     String.format("requestStatus=%s", request.getStatus()));
     }
 
-    void checkSlot(Event event) {
+    private void throwConflictIfThereIsNotSlot(Event event) {
         if (isMoreRequestLimit(event)) {
             throw new ConflictException(
                     messageSource.getMessage("event.request.state.participant_limit", null, null),
@@ -308,7 +309,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    void checkUserIsInitiator(Long userId, Event event) {
+    private void throwConflictIfUserIsNotInitiator(Long userId, Event event) {
         if (!event.getInitiator().getId().equals(userId)) {
             throw new ValidationException(
                     messageSource.getMessage("event.request.state.not_initiator", null, null),
@@ -316,7 +317,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    void checkEventIsModerated(Event event) {
+    private void throwConflictIfEventIsNotModerated(Event event) {
         if (!event.getRequestModeration()) {
             throw new ConflictException(
                     messageSource.getMessage(
@@ -325,7 +326,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    void checkEventDateLeastComeHoursFromNowInFuture(LocalDateTime dateTime) {
+    private void throwConflictIfDateEventIsLaterThanFewHoursBeforePresentTime(LocalDateTime dateTime) {
         if (dateTime != null) {
             if (LocalDateTime.now().plusHours(hoursDelta).isAfter(dateTime)) {
                 throw new ConflictException(
@@ -335,7 +336,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    void checkEventStatusIsNotPublishedWhenTryingToReject(AdminUpdateEventDto eventDto, Event event) {
+    private void throwConflictIfEventStatusIsPublishedWhenTryingToReject(AdminUpdateEventDto eventDto, Event event) {
         if (eventDto.getStateAction() == REJECT_EVENT && event.getState() == PUBLISHED) {
             throw new ConflictException(
                     messageSource.getMessage("event.state.reject.published", null, null),
@@ -343,7 +344,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    void checkEventStatusIsNotPendingWhenTryingToPublish(AdminUpdateEventDto eventDto, Event event) {
+    private void throwConflictIfEventStatusIPendingWhenTryingToPublish(AdminUpdateEventDto eventDto, Event event) {
         if (eventDto.getStateAction() == PUBLISH_EVENT && event.getState() != PENDING) {
             throw new ConflictException(
                     messageSource.getMessage("event.state.publish.not_pending", null, null),
@@ -351,7 +352,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    void checkEventStatusIsNotPublished(Event event) {
+    private void throwConflictIfEventStatusIsPublished(Event event) {
         if (event.getState() == PUBLISHED) {
             throw new ConflictException(
                     messageSource.getMessage("event.state.change.published", null, null),
@@ -359,7 +360,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    Event getEvent(Long id) {
+    private Event getEvent(Long id) {
         return eventRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("event.not_found", new Object[]{id}, null),

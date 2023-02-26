@@ -47,8 +47,8 @@ public class CompilationServiceImpl implements CompilationService {
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(
                     messageSource.getMessage(
-                        "compilation.title.duplicate", new Object[]{compilation.getTitle()}, null),
-                        format("Name=%s", compilation.getTitle()));
+                            "compilation.title.duplicate", new Object[]{compilation.getTitle()}, null),
+                    format("Name=%s", compilation.getTitle()));
         }
 
         log.info("{} is added to repository", savedCompilation);
@@ -59,7 +59,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public List<CompilationDto> getAll(Integer from, Integer size, @Nullable Boolean pinned) {
         log.debug("List of pinned={} compilations is requested with the following pagination parameters: " +
-                        "from={} and size={}", pinned, from, size);
+                "from={} and size={}", pinned, from, size);
 
         Pageable pageable = OffsetLimitPageable.of(from, size);
 
@@ -100,8 +100,8 @@ public class CompilationServiceImpl implements CompilationService {
         } catch (DataIntegrityViolationException e) {
             throw new ConflictException(
                     messageSource.getMessage(
-                        "compilation.title.duplicate", new Object[]{compilation.getTitle()}, null),
-                        format("Name=%s", compilation.getTitle()));
+                            "compilation.title.duplicate", new Object[]{compilation.getTitle()}, null),
+                    format("Name=%s", compilation.getTitle()));
         }
 
         compilationRepo.save(compilation);
@@ -124,14 +124,15 @@ public class CompilationServiceImpl implements CompilationService {
         } else {
             throw new ConflictException(
                     messageSource.getMessage("compilation.delete.used_in_events", new Object[]{id}, null),
-                    format("categoryId=%d, eventId=%s", id, compilation.getEvents().stream().map(event ->
-                            String.valueOf(event.getId())).collect(Collectors.joining(", "))));
+                    format("categoryId=%d, eventId=%s", id, compilation.getEvents().stream()
+                            .map(event -> String.valueOf(event.getId()))
+                            .collect(Collectors.joining(", "))));
         }
 
         log.debug("Compilation with id {} is deleted from repository", id);
     }
 
-    Compilation getCompilation(Long id) {
+    private Compilation getCompilation(Long id) {
         return compilationRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("compilation.not_found", new Object[]{id}, null),
