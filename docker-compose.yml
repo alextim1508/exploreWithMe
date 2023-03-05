@@ -9,7 +9,7 @@ services:
     environment:
       - SERVER_PORT=9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/stats
-      - SPRING_DATASOURCE_USER=root
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
 
   stat-db:
@@ -18,7 +18,7 @@ services:
       - "5444:5432"
     environment:
       - POSTGRES_DB=stats
-      - POSTGRES_USER=root
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
 
   main-server:
@@ -32,7 +32,7 @@ services:
     environment:
       - STAT_SERVER_URL=http://stat-server:9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/ewm
-      - SPRING_DATASOURCE_USER=root
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
 
   main-db:
@@ -41,5 +41,22 @@ services:
       - "5333:5432"
     environment:
       - POSTGRES_DB=ewm
-      - POSTGRES_USER=root
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
+
+  keycloak:
+    build: ./keycloak/
+    depends_on:
+      - main-db
+    ports:
+      - "8085:8080"
+    volumes:
+      - ./keycloak/import:/opt/keycloak/data/import
+    environment:
+      - KEYCLOAK_ADMIN=keycloak
+      - KEYCLOAK_ADMIN_PASSWORD=root
+      - KEYCLOAK_USER_PROVIDER_URL=jdbc:postgresql://main-db:5432/ewm
+      - KEYCLOAK_USER_PROVIDER_RDBMS=PostgreSQL
+      - KEYCLOAK_USER_PROVIDER_USERNAME=postgres
+      - KEYCLOAK_USER_PROVIDER_PASSWORD=root
+

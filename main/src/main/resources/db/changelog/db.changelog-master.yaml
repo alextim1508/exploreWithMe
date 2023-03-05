@@ -11,3 +11,7 @@ databaseChangeLog:
       file: db/changelog/changeset/create-table-compilations.yaml
   - include:
       file: db/changelog/changeset/create-table-events_compilation.yaml
+  - include:
+      file: db/changelog/changeset/add-hash-password-to-users.yaml
+  - include:
+      file: db/changelog/changeset/rename-name-column-in-users.yaml

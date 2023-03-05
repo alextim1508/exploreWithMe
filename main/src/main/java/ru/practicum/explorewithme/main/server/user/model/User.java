@@ -13,8 +13,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"id", "events", "requests"})
-@ToString(exclude = {"events", "requests"})
+@EqualsAndHashCode(exclude = {"id", "hash_pwd", "events", "requests"})
+@ToString(exclude = {"hash_pwd","events", "requests"})
 @Entity
 @EntityListeners(AuditUserListener.class)
 @Table(name = "users")
@@ -25,12 +25,15 @@ public class User {
     private Long id;
 
     @NonNull
-    @Column(nullable = false, length = 255)
+    @Column(name = "username", nullable = false, length = 255)
     private String name;
 
     @NonNull
     @Column(nullable = false, unique = true, length = 255)
     private String email;
+
+    @Column(name = "hash_pwd", nullable = false)
+    private String hashPwd ;
 
     @OneToMany(mappedBy = "initiator")
     private List<Event> events = new ArrayList<>();
