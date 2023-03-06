@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
         User user = mapper.toEntity(userDto);
 
-        user.setHashPwd(getHash(user.getName(), hashAlgo));
+        user.setHashPwd(getHash(user.getEmail().split("@")[0].toLowerCase(), hashAlgo));
 
         User savedUser;
         try {
