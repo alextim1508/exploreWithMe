@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.practicum.explorewithme.main.server.exception.dto.ErrorDto;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -67,6 +69,22 @@ public class ControllerExceptionHandler {
         return errorDto;
     }
 
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorDto handleAuthenticationException(AuthenticationException e) {
+
+        ErrorDto errorDto = ErrorDto.builder()
+                .errors(Collections.emptyList())
+                .message(e.getMessage())
+                .reason("")
+                .status(HttpStatus.CONFLICT)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.error(errorDto.toString());
+        return errorDto;
+    }
+
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorDto handleConflictException(ConflictException e) {
@@ -107,6 +125,22 @@ public class ControllerExceptionHandler {
                 .errors(Collections.emptyList())
                 .message(e.getMessage())
                 .reason(e.getRejectedValue())
+                .status(HttpStatus.BAD_REQUEST)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.error(errorDto.toString());
+        return errorDto;
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleConstraintViolationException(ConstraintViolationException e) {
+
+        ErrorDto errorDto = ErrorDto.builder()
+                .errors(Collections.emptyList())
+                .message(e.getMessage())
+                .reason("")
                 .status(HttpStatus.BAD_REQUEST)
                 .timestamp(LocalDateTime.now())
                 .build();

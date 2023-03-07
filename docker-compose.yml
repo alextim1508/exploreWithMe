@@ -30,6 +30,9 @@ services:
       - "8080:8080"
       - "8081:8081"
     environment:
+      - app.frontend-client.url=http://localhost:8180
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://keycloak:8080/realms/ewm-realm/protocol/openid-connect/certs
+      - logging.level.ru.practicum.explorewithme.main=DEBUG
       - STAT_SERVER_URL=http://stat-server:9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/ewm
       - SPRING_DATASOURCE_USERNAME=postgres
