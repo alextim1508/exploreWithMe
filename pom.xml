@@ -13,6 +13,7 @@
     <modules>
         <module>stat</module>
         <module>main</module>
+        <module>front</module>
     </modules>
 
     <name>Explore With Me</name>

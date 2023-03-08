@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -62,22 +61,6 @@ public class ControllerExceptionHandler {
                 .message(e.getMessage())
                 .reason(e.getErrorCode())
                 .status(HttpStatus.BAD_REQUEST)
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        log.error(errorDto.toString());
-        return errorDto;
-    }
-
-    @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorDto handleAuthenticationException(AuthenticationException e) {
-
-        ErrorDto errorDto = ErrorDto.builder()
-                .errors(Collections.emptyList())
-                .message(e.getMessage())
-                .reason("")
-                .status(HttpStatus.CONFLICT)
                 .timestamp(LocalDateTime.now())
                 .build();
 

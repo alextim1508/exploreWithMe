@@ -9,4 +9,4 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 ENV KC_HOSTNAME=localhost
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--import-realm"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--import-realm", "--http-port=8085"]
