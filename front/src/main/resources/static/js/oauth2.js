@@ -16,9 +16,9 @@ const CLIENT_ROOT_URL = "http://localhost:8180/";
 
 const RESOURCE_SERVER_URL = "http://localhost:8080/";
 
-var accessToken = "";
-var refreshToken = "";
-var idToken = "";
+let accessToken = '';
+let refreshToken = '';
+let idToken = '';
 
 
 const ID_TOKEN_KEY = "IT";
@@ -54,10 +54,8 @@ function initAccessToken() {
 
 function checkAuthCode() {
     var urlParams = new URLSearchParams(window.location.search);
-    var authCode = urlParams.get('code'),
-        state = urlParams.get('state'),
-        error = urlParams.get('error'),
-        errorDescription = urlParams.get('error_description');
+    var authCode = urlParams.get('code');
+    var state = urlParams.get('state');
 
     if (!authCode) {
         return false;
@@ -72,32 +70,28 @@ function checkAuthCode() {
 function generateCodeVerifier() {
     var randomByteArray = new Uint8Array(43);
     window.crypto.getRandomValues(randomByteArray);
-    return base64urlencode(randomByteArray); // формат Base64 на основе массива байтов
+    return base64urlEncode(randomByteArray);
 }
 
-function base64urlencode(sourceValue) {
-    var stringValue = String.fromCharCode.apply(null, sourceValue);
-    var base64Encoded = btoa(stringValue);
-    var base64urlEncoded = base64Encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-    return base64urlEncoded;
+function base64urlEncode(sourceValue) {
+    return btoa(String.fromCharCode.apply(null, sourceValue))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '');
 }
 
 function generateState(length) {
     var state = "";
     var alphaNumericCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var alphaNumericCharactersLength = alphaNumericCharacters.length;
-    for (var i = 0; i < length; i++) {
-        state += alphaNumericCharacters.charAt(Math.floor(Math.random() * alphaNumericCharactersLength));
+    for (var i = 0; i < alphaNumericCharacters.length; i++) {
+        state += alphaNumericCharacters.charAt(Math.floor(Math.random() * alphaNumericCharacters.length));
     }
     return state;
 }
 
 async function generateCodeChallenge(codeVerifier) {
-    var textEncoder = new TextEncoder('US-ASCII');
-    var encodedValue = textEncoder.encode(codeVerifier);
-    var digest = await window.crypto.subtle.digest(SHA_256, encodedValue);
-
-    return base64urlencode(Array.from(new Uint8Array(digest)));
+    var digest = await window.crypto.subtle.digest(SHA_256, new TextEncoder('US-ASCII').encode(codeVerifier));
+    return base64urlEncode(Array.from(new Uint8Array(digest)));
 }
 
 function requestAuthCode(state, codeChallenge) {
@@ -146,7 +140,6 @@ function requestTokens(stateFromAuthServer, authCode) {
     }
 }
 
-
 function accessTokenResponse(data, status, jqXHR) {
 
     localStorage.removeItem(STATE_KEY);
@@ -189,7 +182,7 @@ function getDataFromResourceServer() {
 function resourceServerResponse(data, status, jqXHR) {
     let json = JSON.stringify(data);
 
-    console.log("resource server data = " + json.length);
+    console.log("resourceServerResponse Ok");
 
     document.getElementById("userdata").innerHTML = json;
 }
@@ -200,6 +193,7 @@ function resourceServerError(request, status, error) {
     var json = JSON.parse(request.responseText);
     var ex = json["errors"][0];
     var message = json["message"];
+
     console.log("exception" + ex);
 
     refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
