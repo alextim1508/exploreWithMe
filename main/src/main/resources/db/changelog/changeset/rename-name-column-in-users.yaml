@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: rename_name_column_in_users
+      author: Aleksey Timofeev
+      comment: "rename column for oAuth2 token format"
+      changes:
+        - renameColumn:
+            tableName: users
+            oldColumnName: name
+            newColumnName: username

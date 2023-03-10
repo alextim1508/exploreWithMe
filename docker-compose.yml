@@ -9,7 +9,7 @@ services:
     environment:
       - SERVER_PORT=9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stat-db:5432/stats
-      - SPRING_DATASOURCE_USER=root
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
 
   stat-db:
@@ -18,7 +18,7 @@ services:
       - "5444:5432"
     environment:
       - POSTGRES_DB=stats
-      - POSTGRES_USER=root
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
 
   main-server:
@@ -30,16 +30,45 @@ services:
       - "8080:8080"
       - "8081:8081"
     environment:
+      - app.frontend-client.url=http://localhost:8180
+      - spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://keycloak:8085/realms/ewm-realm/protocol/openid-connect/certs
+      - logging.level.ru.practicum.explorewithme.main=DEBUG
       - STAT_SERVER_URL=http://stat-server:9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/ewm
-      - SPRING_DATASOURCE_USER=root
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
 
   main-db:
     image: postgres:14-alpine
     ports:
       - "5333:5432"
+    volumes:
+      - ./postgres/ewm_dump.sql:/docker-entrypoint-initdb.d/ewm_dump.sql
     environment:
       - POSTGRES_DB=ewm
-      - POSTGRES_USER=root
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
+
+  front-server:
+    build: ./front
+    ports:
+      - "8180:8180"
+    environment:
+      - server.port=8180
+
+  keycloak:
+    build: ./keycloak/
+    depends_on:
+      - main-db
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./keycloak/volume:/opt/keycloak/data/import
+    environment:
+      - KEYCLOAK_ADMIN=keycloak
+      - KEYCLOAK_ADMIN_PASSWORD=root
+      - KEYCLOAK_USER_PROVIDER_URL=jdbc:postgresql://main-db:5432/ewm
+      - KEYCLOAK_USER_PROVIDER_RDBMS=PostgreSQL
+      - KEYCLOAK_USER_PROVIDER_USERNAME=postgres
+      - KEYCLOAK_USER_PROVIDER_PASSWORD=root
+

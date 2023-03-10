@@ -2,6 +2,10 @@ package ru.practicum.explorewithme.main.server.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,7 @@ import ru.practicum.explorewithme.main.server.user.model.User;
 import ru.practicum.explorewithme.main.server.user.repository.UserRepository;
 import ru.practicum.explorewithme.main.server.util.OffsetLimitPageable;
 
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +35,16 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mapper;
     private final MessageSource messageSource;
 
+    @Value("${app.hash_algo}")
+    private String hashAlgo;
+
     @Override
     public UserFullDto create(NewUserDto userDto) {
         log.debug("Request to add {} is received", userDto);
 
         User user = mapper.toEntity(userDto);
+
+        user.setHashPwd(getHash(user.getEmail().split("@")[0].toLowerCase(), hashAlgo));
 
         User savedUser;
         try {
@@ -48,6 +58,12 @@ public class UserServiceImpl implements UserService {
         log.debug("User with ID {} is added to repository", savedUser);
 
         return mapper.toFullDto(savedUser);
+    }
+
+    private String getHash(String password, String algorithm) {
+        MessageDigest digest = DigestUtils.getDigest(algorithm);
+
+        return Hex.encodeHexString(digest.digest(StringUtils.getBytesUtf8(password)));
     }
 
     @Override

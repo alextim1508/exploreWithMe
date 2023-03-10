@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.practicum.explorewithme.main.server.exception.dto.ErrorDto;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -107,6 +108,22 @@ public class ControllerExceptionHandler {
                 .errors(Collections.emptyList())
                 .message(e.getMessage())
                 .reason(e.getRejectedValue())
+                .status(HttpStatus.BAD_REQUEST)
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.error(errorDto.toString());
+        return errorDto;
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDto handleConstraintViolationException(ConstraintViolationException e) {
+
+        ErrorDto errorDto = ErrorDto.builder()
+                .errors(Collections.emptyList())
+                .message(e.getMessage())
+                .reason("")
                 .status(HttpStatus.BAD_REQUEST)
                 .timestamp(LocalDateTime.now())
                 .build();
